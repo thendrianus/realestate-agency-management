@@ -1,0 +1,410 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			Hold Property
+		</h1>
+
+	</div>
+</div>
+
+
+<section class="panel panel-default">
+	<ol class="breadcrumb">
+		<li>
+			<i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+		</li>
+		<li class="active">
+			<i class="fa fa-edit"></i> Hold Property
+		</li>
+	</ol>
+	<div class="panel-body">
+
+		<form class="form-horizontal" action="javascript:void(0);" name="form1" id="form1">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Hold ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="hold_id" disabled="disabled">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Employee ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="employee" maxlength="30" required="required">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Customer ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="customer" maxlength="30" required="required">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Listing ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="listing_id" maxlength="30" required="required">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Hold Deadline</label>
+				<div class="col-sm-3">
+					<input class="input-sm input-s datepicker-input form-control" size="16" type="date"
+						value="2015-10-16" id="deadline" data-date-format="yyyy-mm-dd">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Note</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="3" placeholder="" id="note"> </textarea>
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+
+			<div class="form-group text-center">
+
+				<button class="btn btn-primary" value="add" id="formsubmit" onClick="formsubmits('add')">Tambah Hold
+					Property</button>
+				<button class="btn btn-primary" value="add" id="editsubmit" onClick="formsubmits('edit')">Edit Hold
+					Property</button>
+				<button class="btn btn-primary" value="add" id="editcancel"
+					onClick="formsubmits('cancel')">Cancel</button>
+
+
+			</div>
+		</form>
+		<div class="line line-dashed line-lg pull-in"></div>
+		<form class="form-horizontal" action="javascript:void(0);">
+			<div class="table-responsive">
+				<table class="table table-striped" id="list_table" cellpadding="0" cellspacing="0" border="0"
+					class="display" width="100%">
+					<thead>
+						<tr>
+							<th>Hold ID</th>
+
+							<th>Listing</th>
+
+							<th>Employee</th>
+
+							<th>Customer</th>
+
+							<th>Deadline</th>
+
+							<th>Status</th>
+
+							<th>Note</th>
+
+							<th>Edit / Delete</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</form>
+	</div>
+
+	</div>
+</section>
+
+<script>
+	get_id();
+
+	function formsubmits(i) {
+		if (i == 'add') {
+			document.form1.action = "javascript:add();";
+		}
+		else if (i == 'edit') {
+			document.form1.action = "javascript:edit();";
+		}
+		else if (i == 'cancel') {
+			document.form1.action = "javascript:cancel();";
+		}
+	}
+	var dutaid = $('#dutaid').html();
+	var dutastatus = $('#dutastatus').html();
+	var dataTable = $('#list_table').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"ajax": {
+			url: "php/hold.php",
+			data: { 'action': 'list_table', 'dutastatus': dutastatus, 'dutaid': dutaid },
+			type: "post",
+			error: function () {
+				$(".myTable-error").html("");
+				$("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+				$("#list_table").css("display", "none");
+			}
+		}
+	});
+
+	function get_id() {
+		$.post("php/hold.php", {
+			action: 'get_id'
+		},
+			function (data) {
+				var jsondata = JSON.parse(data);
+				var d = new Date();
+				var year = d.getYear() - 100;
+				var month = ("0" + (d.getMonth() + 1)).slice(-2);
+				var num = parseInt(jsondata[0].numrow) + 1;
+				document.getElementById("hold_id").value = "HLD" + year + month + num;
+			});
+
+		$('#formsubmit').show();
+		$('#editsubmit').hide();
+		$('#editcancel').hide();
+	}
+
+
+	$('#customer').autocomplete({
+		minLength: 2,
+		source: function (request, response) {
+			$.ajax({
+				url: "php/listing.php",
+				type: "POST",
+				data: { 'action': 'customer', 'customer': '' + $('#customer').val() + '' },
+				dataType: "json",
+				success: function (data) {
+					response($.map(data, function (item) {
+						return {
+							label: item.label,
+							value: item.value
+						}
+					}));
+				}
+			});
+		},
+		autoFocus: true,
+		select: function (event, ui) {
+			$('#customer').val('');
+			$('#customer').val(ui.item.value);
+			document.getElementById('customer').readOnly = true;
+			return false;
+		}
+
+	});
+
+	//job id edit
+	$('#customer').click(function () {
+		$('#customer').val('');
+		document.getElementById('customer').readOnly = false;
+	});
+
+	$('#employee').autocomplete({
+		minLength: 2,
+		source: function (request, response) {
+			$.ajax({
+				url: "php/closing.php",
+				type: "POST",
+				data: { 'action': 'employee', 'employee': '' + $('#employee').val() + '' },
+				dataType: "json",
+				success: function (data) {
+					response($.map(data, function (item) {
+						return {
+							label: item.label,
+							value: item.value
+						}
+					}));
+				}
+			});
+		},
+		autoFocus: true,
+		select: function (event, ui) {
+			$('#employee').val('');
+			$('#employee').val(ui.item.value);
+			document.getElementById('employee').readOnly = true;
+			return false;
+		}
+
+	});
+
+	//job id edit
+	$('#employee').click(function () {
+		$('#employee').val('');
+		document.getElementById('employee').readOnly = false;
+	});
+
+
+	$('#listing_id').autocomplete({
+		minLength: 2,
+		source: function (request, response) {
+			$.ajax({
+				url: "php/hold.php",
+				type: "POST",
+				data: { 'action': 'listing', 'listing': '' + $('#listing_id').val() + '' },
+				dataType: "json",
+				success: function (data) {
+					response($.map(data, function (item) {
+						return {
+							label: item.label,
+							value: item.value
+						}
+					}));
+				}
+			});
+		},
+		autoFocus: true,
+		select: function (event, ui) {
+			$('#listing_id').val('');
+			$('#listing_id').val(ui.item.value);
+			document.getElementById('listing_id').readOnly = true;
+			return false;
+		}
+
+	});
+
+	//job id edit
+	$('#listing_id').click(function () {
+		$('#listing_id').val('');
+		document.getElementById('listing_id').readOnly = false;
+	});
+
+	$(".datepicker-input").each(function () {
+		$(this).datepicker();
+	});
+
+	function add() {
+		var customer = $('#customer').val().split('-');
+		var employee = $('#employee').val().split('-');
+		var listing = $('#listing_id').val().split('-');
+
+		$.post("php/hold.php", {
+			action: 'add',
+			id: '' + $('#hold_id').val() + '',
+			customer: customer[0],
+			employee: employee[0],
+			listing: listing[0],
+			deadline: '' + $('#deadline').val() + '',
+			note: $('#note').val()
+		},
+			function (data) {
+
+				if (data == "Data Berhasil Dimasukkan!!!") {
+					$.post("php/approval.php", {
+						action: 'add',
+						category: 'Add Hold',
+						employee: '' + employee[0] + '',
+						target: '' + $('#hold_id').val() + '',
+						status: 'Need Approval',
+					},
+						function (data) {
+							alert(data);
+
+							document.getElementById('employee').readOnly = true;
+							document.getElementById('customer').readOnly = true;
+							document.getElementById('listing_id').readOnly = true;
+							document.getElementById('form1').reset();
+							get_id();
+							$('#list_table').DataTable().ajax.reload();
+
+						});
+				}
+
+			});
+	}
+
+	function cancel() {
+		document.form1.action = "javascript:void(0);";
+		document.getElementById('employee').readOnly = false;
+		document.getElementById('customer').readOnly = false;
+		document.getElementById('listing_id').readOnly = false;
+		document.getElementById('form1').reset();
+		get_id();
+
+		$('#formsubmit').show();
+		$('#editsubmit').hide();
+		$('#editcancel').hide();
+
+	}
+
+	function editbutton(no) {
+
+		$.post("php/hold.php", {
+			action: 'editdata',
+			id: "" + no + ""
+		},
+			function (data) {
+				//alert(data+'asd');
+				var jsondata = JSON.parse(data);
+				document.getElementById('hold_id').value = jsondata[0].hold_id;
+				document.getElementById('employee').value = jsondata[0].employee_id;
+				document.getElementById('employee').readOnly = true;
+				document.getElementById('customer').value = jsondata[0].customer_id;
+				document.getElementById('customer').readOnly = true;
+				document.getElementById('listing_id').value = jsondata[0].listing_id;
+				document.getElementById('listing_id').readOnly = true;
+				document.getElementById('deadline').value = jsondata[0].hold_deadline;
+				document.getElementById('note').value = jsondata[0].note;
+
+				$('#formsubmit').hide();
+				$('#editsubmit').show();
+				$('#editcancel').show();
+			});
+	}
+
+	function edit() {
+		var customer = $('#customer').val().split('-');
+		var employee = $('#employee').val().split('-');
+		var listing = $('#listing_id').val().split('-');
+
+		$.post("php/closing.php", {
+			action: 'edit',
+			id: '' + $('#closing_id').val() + '',
+			customer: customer[0],
+			employee: employee[0],
+			listing: listing[0],
+			payment: '' + $('#cashcredit').val() + '',
+			dp: '' + $('#dp').val() + '',
+			note: $('#note').val()
+		},
+			function (data) {
+				if (data == "oke") {
+					$.post("php/approval.php", {
+						action: 'add',
+						category: 'Add Closing',
+						employee: '' + employee[0] + '',
+						target: '' + $('#closing_id').val() + '',
+						status: 'Need Approval',
+					},
+						function (data) {
+							alert(data);
+							$('#list_table').DataTable().ajax.reload();
+							document.getElementById('form1').reset();
+							get_id();
+							document.getElementById('customer').readOnly = false;
+							document.getElementById('employee').readOnly = false;
+							document.getElementById('listing_id').readOnly = false;
+						});
+				}
+				else {
+					alert(data);
+					$('#list_table').DataTable().ajax.reload();
+					document.getElementById('form1').reset();
+					get_id();
+					document.getElementById('customer').readOnly = false;
+					document.getElementById('employee').readOnly = false;
+					document.getElementById('listing_id').readOnly = false;
+				}
+			});
+	}
+
+	function deletebutton(no) {
+		document.form1.action = "javascript:void(0);";
+		if (confirm('Apa anda yakin anda ingin menghapus data ini?')) {
+
+			$.post("php/hold.php", {
+				action: 'delete',
+				id: "" + no + ""
+			},
+				function (data) {
+					$('#list_table').DataTable().ajax.reload();
+				});
+		} else {
+			// Do nothing!
+		}
+	}
+
+</script>

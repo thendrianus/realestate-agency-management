@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Portal - PT. DUTA PROPERTINDO BATAM</title>
+
+    <link href="css/portal-bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <link href="css/jquery-ui.css" rel="Stylesheet">
+    </link>
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables_themeroller.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="css/dataTables.jqueryui.css">
+
+    <link rel="stylesheet" href="js/datepicker/datepicker.css" type="text/css" />
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <style>
+        #nav-content {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">PT. DUTA PROPERTINDO BATAM</a>
+            </div>
+
+            <ul class="nav navbar-right top-nav">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><strong
+                            id="username"></strong> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" id="logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a><a id="dutaid"
+                                style="display:none;"><a id="dutastatus" style="display:none;"></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li id="nav-dashboard">
+                        <a href="#" onClick="return navclick('dashboard')"><i class="fa fa-fw fa-dashboard"></i>
+                            Dashboard</a>
+                    </li>
+                    <li id="listing">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo4"><i
+                                class="fa fa-fw fa-arrows-v"></i> Product <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo4" class="collapse">
+                            <li>
+                                <a href="#" onClick="return navclick('all_listing')">All Product</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('my_listing')">My Product</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return navclick('new_customer')"><i
+                                class="fa fa-fw fa-desktop"></i>Customer</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return navclick('closing')"><i class="fa fa-fw fa-desktop"></i>Selling</a>
+                    </li>
+                    <li>
+                        <a href="#" onClick="return navclick('hold')">Hold/Pemesanan</a>
+                    </li>
+                    <li id="system">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo3"><i
+                                class="fa fa-fw fa-arrows-v"></i> System <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo3" class="collapse">
+                            <li>
+                                <a href="#" onClick="return navclick('approval')">Admin Approval</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('hotlisting')">Hot Product</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('location')">Location</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('address')">Address</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('employee')">Employee</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('employee_job')">Employee Job</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick="return navclick('system_account')">System Account</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <section class="vbox">
+                        <div class="col-lg-12">
+
+                            <div id="nav-content">
+                                <center><img src="img/loading.gif" style="padding-top:10%" /></center>
+                            </div>
+
+                        </div>
+                </div>
+                </section>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
+    <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/datepicker/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" language="javascript" src="js/dropzone.js"></script>
+
+    <script>
+
+
+        $.post("php/portal.php", {
+            action: 'session'
+        },
+            function (data) {
+
+                var jsondata = JSON.parse(data);
+
+                if (jsondata[0].session == 'index') {
+                    window.top.location.href = "index.html";
+                }
+                else {
+
+                    document.getElementById('username').innerHTML = jsondata[0].session;
+                    document.getElementById('dutaid').innerHTML = jsondata[0].session1;
+                    document.getElementById('dutastatus').innerHTML = jsondata[0].session2;
+                    $('#nav-content').load('dashboard.html');
+                    $('#nav-content').show();
+                    if (jsondata[0].session2 != 'Administrator') {
+                        $("#system").hide();
+
+                    }
+
+                }
+
+            });
+
+        $("#logout").click(function () {
+            $.post("php/portal.php", {
+                action: 'logout'
+            },
+                function (data) {
+                    window.top.location.href = "index.html";
+                });
+        });
+
+        document.getElementById('nav-dashboard').className = 'active';
+
+        $(".nav li").on("click", function () {
+            $(".nav li").removeClass("active");
+            $(this).addClass("active");
+        });
+
+
+        function navclick(id) {
+
+            $('#nav-content').unload();
+            if (id == 'all_listing') {
+                $('#nav-content').load('all_listing.html');
+                $('#nav-content').show();
+            } else if (id == 'my_listing') {
+                $('#nav-content').load('my_listing.html');
+                $('#nav-content').show();
+            } else if (id == 'new_customer') {
+                $('#nav-content').load('new_customer.html');
+                $('#nav-content').show();
+            } else if (id == 'list_Customer') {
+                $('#nav-content').load('list_customer.html');
+                $('#nav-content').show();
+            } else if (id == 'closing') {
+                $('#nav-content').load('closing.html');
+                $('#nav-content').show();
+            } else if (id == 'all_hold') {
+                $('#nav-content').load('all_hold.html');
+                $('#nav-content').show();
+            } else if (id == 'hold') {
+                $('#nav-content').load('hold.html');
+                $('#nav-content').show();
+            } else if (id == 'location') {
+                $('#nav-content').load('location.html');
+                $('#nav-content').show();
+            } else if (id == 'address') {
+                $('#nav-content').load('address.html');
+                $('#nav-content').show();
+            } else if (id == 'employee') {
+                $('#nav-content').load('employee.html');
+                $('#nav-content').show();
+            } else if (id == 'address') {
+                $('#nav-content').load('address.html');
+                $('#nav-content').show();
+            } else if (id == 'employee') {
+                $('#nav-content').load('employee.html');
+                $('#nav-content').show();
+            } else if (id == 'employee_job') {
+                $('#nav-content').load('employee_job.html');
+                $('#nav-content').show();
+            } else if (id == 'system_account') {
+                $('#nav-content').load('system_account.html');
+                $('#nav-content').show();
+            } else if (id == 'approval') {
+                $('#nav-content').load('approval.html');
+                $('#nav-content').show();
+            } else if (id == 'hotlisting') {
+                $('#nav-content').load('hotlisting.html');
+                $('#nav-content').show();
+            } else if (id == 'dashboard') {
+                $('#nav-content').load('dashboard.html');
+                $('#nav-content').show();
+            }
+        }
+    </script>
+</body>
+
+</html>

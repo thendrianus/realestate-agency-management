@@ -1,0 +1,342 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			Listing Address
+		</h1>
+
+	</div>
+</div>
+
+
+<section class="panel panel-default">
+	<ol class="breadcrumb">
+		<li>
+			<i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+		</li>
+		<li class="active">
+			<i class="fa fa-edit"></i> Listing Address
+		</li>
+	</ol>
+	<div class="panel-body">
+
+		<form class="form-horizontal" action="javascript:void(0);" name="form1" id="form1">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Employee ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="employee_id" disabled="disabled">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Employee Name</label>
+				<div class="col-sm-2">
+					<select name="account" class="form-control m-b" id="employee_status">
+						<option value="0">Mr</option>
+						<option value="1">Mrs</option>
+						<option value="2">Org</option>
+					</select>
+				</div>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="firstname" required="required">
+				</div>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="lastname" required="required">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Job ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="job_id">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Phone Number</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="phone">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" value="" id="email">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Address</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="address">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Status</label>
+				<div class="col-sm-2">
+					<select name="status" class="form-control m-b" id="status">
+						<option value="Employee">Employee</option>
+						<option value="Freelancer">Freelancer</option>
+						<option value="Resign">Resign</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Note</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="3" placeholder="" id="note"> </textarea>
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+
+			<div class="form-group text-center">
+
+				<button class="btn btn-primary" value="add" id="formsubmit" onClick="formsubmits('add')">Tambah
+					Employee</button>
+				<button class="btn btn-primary" value="add" id="editsubmit" onClick="formsubmits('edit')">Edit
+					Employee</button>
+				<button class="btn btn-primary" value="add" id="editcancel"
+					onClick="formsubmits('cancel')">Cancel</button>
+
+
+			</div>
+		</form>
+		<div class="line line-dashed line-lg pull-in"></div>
+		<form class="form-horizontal" action="javascript:void(0);">
+			<div class="table-responsive">
+				<table class="table table-striped" id="list_table" cellpadding="0" cellspacing="0" border="0"
+					class="display" width="100%">
+					<thead>
+						<tr>
+							<th>Employee</th>
+
+							<th>Job</th>
+
+							<th>Contact</th>
+
+							<th>Address</th>
+
+							<th>Note</th>
+
+							<th>Status</th>
+
+							<th>Edit / Delete</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</form>
+	</div>
+
+	</div>
+</section>
+
+<script>
+	$('#editcancel').hide();
+	$('#editsubmit').hide();
+
+	//formsubmit
+	function formsubmits(i) {
+		if (i == 'add') {
+			document.form1.action = "javascript:add();";
+		}
+		else if (i == 'edit') {
+			document.form1.action = "javascript:edit();";
+		}
+		else if (i == 'cancel') {
+			document.form1.action = "javascript:cancel();";
+		}
+	}
+
+	get_id();
+
+	//getid
+	function get_id() {
+		$.post("php/employee.php", {
+			action: 'get_id'
+		},
+			function (data) {
+				var jsondata = JSON.parse(data);
+				var d = new Date();
+				var year = d.getYear() - 100;
+				var month = ("0" + (d.getMonth() + 1)).slice(-2);
+				var num = parseInt(jsondata[0].numrow) + 1;
+				document.getElementById("employee_id").value = "EMP" + year + month + num;
+			});
+	}
+
+	//jobid autocomplete
+	$('#job_id').autocomplete({
+		minLength: 2,
+		source: function (request, response) {
+			$.ajax({
+				url: "php/employee.php",
+				type: "POST",
+				data: { 'action': 'job_id', 'job_id': '' + $('#job_id').val() + '' },
+				dataType: "json",
+				success: function (data) {
+					response($.map(data, function (item) {
+						return {
+							label: item.label,
+							value: item.value
+						}
+					}));
+				}
+			});
+		},
+		autoFocus: true,
+		select: function (event, ui) {
+			$('#job_id').val('');
+			$('#job_id').val(ui.item.value);
+			document.getElementById('job_id').readOnly = true;
+			return false;
+		}
+
+	});
+
+	//job id edit
+	$('#job_id').click(function () {
+		$('#job_id').val('');
+		document.getElementById('job_id').readOnly = false;
+	});
+
+	//list table
+	var dataTable = $('#list_table').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"ajax": {
+			url: "php/employee.php",
+			data: { 'action': 'list_table' },
+			type: "post",
+			error: function () {
+				$(".myTable-error").html("");
+				$("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+				$("#list_table").css("display", "none");
+			}
+		}
+	});
+
+	//add employee
+	function add() {
+		var job = $('#job_id').val().split('-');
+		$.post("php/employee.php", {
+			action: 'add',
+			id: '' + $('#employee_id').val() + '',
+			status: '' + $('#employee_status').val() + '',
+			firstname: '' + $('#firstname').val() + '',
+			lastname: '' + $('#lastname').val() + '',
+			job_id: '' + job[0] + '',
+			phone: '' + $('#phone').val() + '',
+			email: '' + $('#email').val() + '',
+			status: '' + $('#status').val() + '',
+			address: '' + $('#address').val() + '',
+			note: $('#note').val()
+		},
+			function (data) {
+				alert(data);
+				document.getElementById('form1').reset();
+				get_id();
+				$('#list_table').DataTable().ajax.reload();
+
+
+			});
+	}
+
+
+	//edit button
+	function editbutton(no) {
+		var id = no.split('-');
+		$('#formsubmit').hide();
+		$('#editsubmit').show();
+		$('#editcancel').show();
+
+		$.post("php/employee.php", {
+			action: 'editdata',
+			id: "" + id[0] + ""
+		},
+
+			function (data) {
+				var jsondata = JSON.parse(data);
+				document.getElementById('employee_id').value = '' + jsondata[0].employee_id + '';
+				document.getElementById('employee_status').value = '' + jsondata[0].title + '';
+				document.getElementById('firstname').value = '' + jsondata[0].firstname + '';
+				document.getElementById('lastname').value = '' + jsondata[0].lastname + '';
+				document.getElementById('job_id').value = '' + jsondata[0].job_id + '';
+				document.getElementById('phone').value = '' + jsondata[0].phone_number + '';
+				document.getElementById('email').value = '' + jsondata[0].email + '';
+				document.getElementById('address').value = '' + jsondata[0].address + '';
+				document.getElementById('status').value = '' + jsondata[0].status + '';
+				document.getElementById('note').value = '' + jsondata[0].note + '';
+				document.getElementById('job_id').disabled = true;
+
+			});
+
+
+	}
+
+
+	//delete button funtion
+	function deletebutton(no) {
+		document.form1.action = "javascript:void(0);";
+		if (confirm('Apa anda yakin anda ingin menghapus data ini?')) {
+			var id = no.split('-');
+
+			$.post("php/employee.php", {
+				action: 'delete',
+				id: id[0]
+			},
+				function (data) {
+					alert(data);
+					$('#list_table').DataTable().ajax.reload();
+				});
+		} else {
+			// Do nothing!
+		}
+	}
+
+
+	//edit button
+	function edit() {
+		var job = $('#job_id').val().split('-');
+		$.post("php/employee.php", {
+			action: 'edit',
+			id: '' + $('#employee_id').val() + '',
+			status: '' + $('#employee_status').val() + '',
+			firstname: '' + $('#firstname').val() + '',
+			lastname: '' + $('#lastname').val() + '',
+			job_id: '' + job[0] + '',
+			phone: '' + $('#phone').val() + '',
+			email: '' + $('#email').val() + '',
+			address: '' + $('#address').val() + '',
+			status: '' + $('#status').val() + '',
+			note: $('#note').val()
+		},
+			function (data) {
+				alert(data);
+				document.getElementById('form1').reset();
+				get_id();
+				document.getElementById('job_id').disabled = false;
+				$('#list_table').DataTable().ajax.reload();
+
+
+			});
+	}
+
+
+	//camcel button
+	function cancel() {
+		document.getElementById('form1').reset();
+		get_id();
+		document.getElementById('job_id').disabled = false;
+		$('#formsubmit').show();
+		$('#editsubmit').hide();
+		$('#editcancel').hide();
+
+	}
+
+
+
+</script>

@@ -1,0 +1,263 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			All Product / All Listing
+		</h1>
+
+	</div>
+</div>
+
+
+<section class="panel panel-default">
+	<ol class="breadcrumb">
+		<li>
+			<i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+		</li>
+		<li class="active">
+			<i class="fa fa-edit"></i> All Product
+		</li>
+	</ol>
+
+
+	<div class="line line-dashed line-lg pull-in"></div>
+	<form class="form-horizontal" action="javascript:void(0);">
+		<div class="table-responsive">
+			<table class="table table-striped" id="list_table" cellpadding="0" cellspacing="0" border="0"
+				class="display" width="100%">
+				<thead>
+					<tr>
+						<th>Listing</th>
+
+						<th>Jual/Sewa</th>
+
+						<th>Listing Category</th>
+
+						<th>Price</th>
+
+						<th>End Of Contract</th>
+
+						<th>Address</th>
+
+						<th>Status</th>
+
+						<th>Note</th>
+
+						<th>Detail</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</form>
+	</div>
+</section>
+
+<div id="ModalDetail" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Listing Detail</h4>
+			</div>
+			<div class="modal-body">
+
+				<form class="form-horizontal" action="javascript:void(0);" disabled="disabled" id="cusform">
+					<fieldset disabled="disabled" id="fieldisable">
+
+
+
+
+						<div class="line line-dashed line-lg pull-in"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Listing ID</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" value="" id="listing_id" disabled="disabled">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Nama Listing</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" value="" id="name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Di Jual / Sewa</label>
+							<div class="col-sm-10">
+								<select name="jualsewa" id="jualsewa" class="form-control m-b">
+									<option value="Di Jual">Di Jual</option>
+									<option value="Di Sewa">Di Sewa</option>
+									<option value="Di Sewa">Di Jual/Sewa</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tipe Listing</label>
+							<div class="col-sm-10">
+								<select name="listing2" class="form-control m-b" id="select_listing"
+									onchange="listing1();">
+									<option value="0">Pilih Listing</option>
+									<option value="Rumah">Rumah</option>
+									<option value="Apartment">Apartment</option>
+									<option value="Bangunan Komersil">Bangunan Komersil</option>
+									<option value="Tanah">Tanah</option>
+								</select>
+							</div>
+						</div>
+
+						<div id="listingtype">
+						</div>
+					</fieldset>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+
+	var dataTable = $('#list_table').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"ajax": {
+			url: "php/listing.php",
+			data: { 'action': 'list_table2' },
+			type: "post",
+			error: function () {
+				$(".myTable-error").html("");
+				$("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+				$("#list_table").css("display", "none");
+			}
+		}
+	});
+	//	$('#listingtype').load('rumah.html');
+	function detailbutton(id) {
+		var listing_id = id.split('-');
+		$.post("php/listing.php", {
+			action: 'listingdetail',
+			id: "" + listing_id[0] + ""
+		},
+			function (data) {
+				var jsondata = JSON.parse(data);
+				var jsondata2 = JSON.parse(jsondata[0].description);
+				var jsondata3 = JSON.parse(jsondata2);
+				var jsondata5 = JSON.parse(jsondata[0].picture);
+				var jsondata4 = JSON.parse(jsondata5);
+
+				var category = jsondata[0].listing_category;
+
+				if (category == 'Rumah') {
+					$("#listingtype").load("rumah.html", function (response, status, xhr) {
+						if (status == "error") {
+							var msg = "Sorry but there was an error: ";
+							$(this).html(msg + xhr.status + " " + xhr.statusText);
+						}
+						else {
+							detaildata();
+						}
+					});
+				}
+				else if (category == 'Apartment') {
+					$("#listingtype").load("apartment.html", function (response, status, xhr) {
+						if (status == "error") {
+							var msg = "Sorry but there was an error: ";
+							$(this).html(msg + xhr.status + " " + xhr.statusText);
+						}
+						else {
+							detaildata();
+						}
+					});
+				}
+				else if (category == 'Bangunan Komersil') {
+					$("#listingtype").load("komersil.html", function (response, status, xhr) {
+						if (status == "error") {
+							var msg = "Sorry but there was an error: ";
+							$(this).html(msg + xhr.status + " " + xhr.statusText);
+						}
+						else {
+							detaildata();
+						}
+					});
+				}
+				else if (category == 'Tanah') {
+					$("#listingtype").load("tanah.html", function (response, status, xhr) {
+						if (status == "error") {
+							var msg = "Sorry but there was an error: ";
+							$(this).html(msg + xhr.status + " " + xhr.statusText);
+						}
+						else {
+							detaildata();
+						}
+					});
+				}
+				else if (category == '5') {
+					$('#listingtype').html('');
+				}
+
+				function detaildata() {
+					$('#form-group-img').hide();
+					$('#form-group-btn').hide();
+					$('#group-customer').hide();
+					document.getElementById('listing_id').value = jsondata[0].listing_id;
+					document.getElementById('name').value = jsondata[0].listing_name;
+					document.getElementById('customer').value = jsondata[0].customer_id;
+					document.getElementById('employee').value = jsondata[0].employee_id;
+					document.getElementById('select_listing').value = jsondata[0].listing_category;
+					document.getElementById('contract').value = jsondata[0].end_of_contract;
+					document.getElementById('jualsewa').value = jsondata[0].sell_rent;
+					document.getElementById('harga').value = jsondata[0].price;
+					document.getElementById('sertifikat').value = jsondata[0].sertifikat;
+					document.getElementById('location').value = jsondata[0].location_id;
+					document.getElementById('address').value = jsondata[0].address_id;
+					document.getElementById('alamat_lengkap').value = jsondata[0].address;
+					document.getElementById('note').value = jsondata[0].note;
+					document.getElementById('sertifikat').value = jsondata[0].sertifikat;
+
+					if (jsondata4[0].picture1 != "") { $('#preview1').html("<img id='img1' src='uploads/" + jsondata4[0].picture1 + "'  class='preview' >"); }
+					if (jsondata4[0].picture2 != "") { $('#preview2').html("<img id='img2' src='uploads/" + jsondata4[0].picture2 + "'  class='preview' >"); }
+					if (jsondata4[0].picture3 != "") { $('#preview3').html("<img id='img3' src='uploads/" + jsondata4[0].picture3 + "'  class='preview' >"); }
+					if (jsondata4[0].picture4 != "") { $('#preview4').html("<img id='img4' src='uploads/" + jsondata4[0].picture4 + "'  class='preview' >"); }
+					if (jsondata4[0].picture5 != "") { $('#preview5').html("<img id='img5' src='uploads/" + jsondata4[0].picture5 + "'  class='preview' >"); }
+					if (jsondata4[0].picture6 != "") { $('#preview6').html("<img id='img6' src='uploads/" + jsondata4[0].picture6 + "'  class='preview' >"); }
+
+					if (category != 'Tanah') {
+						document.getElementById('bangunan').value = jsondata3[0].bangunan;
+						document.getElementById('lantai').value = jsondata3[0].lantai;
+						document.getElementById('kmandi').value = jsondata3[0].kmandi;
+						document.getElementById('ktidur').value = jsondata3[0].ktidur;
+
+						if (typeof jsondata3[0].AC != 'undefined') { document.getElementById("AC").checked = true; }
+						if (typeof jsondata3[0].Garasi != 'undefined') { document.getElementById("Garasi").checked = true; }
+						if (typeof jsondata3[0].Refrigerator != 'undefined') { document.getElementById("Refrigerator").checked = true; }
+						if (typeof jsondata3[0].Fire != 'undefined') { document.getElementById("Fire").checked = true; }
+						if (typeof jsondata3[0].Kolam != 'undefined') { document.getElementById("Kolam").checked = true; }
+						if (typeof jsondata3[0].Telephone != 'undefined') { document.getElementById("Telephone").checked = true; }
+						if (typeof jsondata3[0].Stove != 'undefined') { document.getElementById("Stove").checked = true; }
+						if (typeof jsondata3[0].Gordyn != 'undefined') { document.getElementById("Gordyn").checked = true; }
+						if (typeof jsondata3[0].Carport != 'undefined') { document.getElementById("Carport").checked = true; }
+						if (typeof jsondata3[0].PAM != 'undefined') { document.getElementById("PAM").checked = true; }
+						if (typeof jsondata3[0].Microwave != 'undefined') { document.getElementById("Microwave").checked = true; }
+						if (typeof jsondata3[0].Garden != 'undefined') { document.getElementById("Garden").checked = true; }
+						if (typeof jsondata3[0].Water != 'undefined') { document.getElementById("Water").checked = true; }
+						if (typeof jsondata3[0].Oven != 'undefined') { document.getElementById("Oven").checked = true; }
+					}
+
+					if (category != 'Apartment') {
+						document.getElementById('tanah').value = jsondata3[0].tanah;
+					}
+
+					$("#ModalDetail").modal('show');
+				}
+
+
+				//$("#ModalDetail").modal('show');
+			});
+	}
+
+</script>

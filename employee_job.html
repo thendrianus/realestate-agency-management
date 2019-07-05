@@ -1,0 +1,214 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">
+			Employee Job
+		</h1>
+
+	</div>
+</div>
+
+
+<section class="panel panel-default">
+	<ol class="breadcrumb">
+		<li>
+			<i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+		</li>
+		<li class="active">
+			<i class="fa fa-edit"></i> Employee Job
+		</li>
+	</ol>
+	<div class="panel-body">
+
+		<form class="form-horizontal" action="javascript:void(0);" name="form1">
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Employee Job ID</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" value="" id="job_id" disabled="disabled">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Employee Job</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="job" maxlength="20" required="required">
+				</div>
+			</div>
+			<div class="line line-dashed line-lg pull-in"></div>
+			<div class="table-responsive">
+				<table class="table table-striped b-t b-light" id="tabledata">
+					<thead>
+						<tr>
+							<th> Edit / Delete</th>
+
+							<th>Employee Job ID</th>
+
+							<th>Employee Job</th>
+
+						</tr>
+					</thead>
+
+					<tbody id="viewtable">
+						<tr></tr>
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="line line-dashed line-lg pull-in"></div>
+
+			<div class="form-group text-center">
+
+				<button class="btn btn-primary" value="add" id="formsubmit" onClick="formsubmits('add')">Tambah
+					Job</button>
+				<button class="btn btn-primary" value="add" id="editsubmit" onClick="formsubmits('edit')">Edit
+					Job</button>
+				<button class="btn btn-primary" value="add" id="editcancel"
+					onClick="formsubmits('cancel')">Cancel</button>
+
+
+			</div>
+
+		</form>
+	</div>
+</section>
+
+<script>
+	$('#editcancel').hide();
+	$('#editsubmit').hide();
+
+	//formsubmit
+	function formsubmits(i) {
+		if (i == 'add') {
+			document.form1.action = "javascript:add();";
+		}
+		else if (i == 'edit') {
+			document.form1.action = "javascript:edit();";
+		}
+		else if (i == 'cancel') {
+			document.form1.action = "javascript:cancel();";
+		}
+	}
+
+	//view
+	$.post("php/employee_job.php", {
+		action: 'view'
+	},
+		function (data) {
+			viewdata(data);
+		});
+
+	//add Job
+	function add() {
+
+		$.post("php/employee_job.php", {
+			action: 'add',
+			id: '' + $('#job_id').val() + '',
+			name: $('#job').val()
+		},
+			function (data) {
+				document.getElementById('job').value = '';
+				viewdata(data);
+			});
+	}
+
+	//edit button
+	function editbutton(no) {
+
+
+		$.post("php/employee_job.php", {
+			action: 'editdata',
+			id: "" + no + ""
+		},
+			function (data) {
+				//alert(data+'asd');
+				var jsondata = JSON.parse(data);
+				document.getElementById('job_id').value = jsondata[0].job_id;
+				document.getElementById('job').value = jsondata[0].name;
+
+				$('#formsubmit').hide();
+				$('#editsubmit').show();
+				$('#editcancel').show();
+			});
+	}
+
+
+	//delete button funtion
+	function deletebutton(no) {
+		document.form1.action = "javascript:void(0);";
+		if (confirm('Apa anda yakin anda ingin menghapus data ini?')) {
+
+			$.post("php/employee_job.php", {
+				action: 'delete',
+				id: "" + no + ""
+			},
+				function (data) {
+					document.getElementById('job').value = '';
+					viewdata(data);
+				});
+		} else {
+			// Do nothing!
+		}
+	}
+
+
+	//edit button
+	function edit() {
+		var id = $('#job_id').val();
+		$.post("php/employee_job.php", {
+			action: 'edit',
+			id: id,
+			name: $('#job').val()
+		},
+			function (data) {
+				viewdata(data);
+				document.getElementById('job').value = '';
+				$('#formsubmit').show();
+				$('#editsubmit').hide();
+				$('#editcancel').hide();
+			});
+	}
+
+	//camcel button
+	function cancel() {
+		$.post("php/employee_job.php", {
+			action: 'view',
+			id: "",
+			name: ""
+		},
+			function (data) {
+				viewdata(data);
+				document.getElementById('job').value = '';
+				$('#formsubmit').show();
+				$('#editsubmit').hide();
+				$('#editcancel').hide();
+			});
+	}
+
+
+	//view data
+	function viewdata(data) {
+		$('#viewtable').html('');
+		var jsondata = JSON.parse(data);
+		for (var i = 0; i < jsondata.length - 1; i++) {
+			var tr = "<tr id='tabletr" + i + "'>";
+			var td1 = "<td>" + jsondata[i].job_id + "</td>";
+			var td2 = "<td>" + jsondata[i].name + "</td>";
+			var td3 = "<td><button class='btn btn-sm btn-default' type='submit' onClick='editbutton(\"" + jsondata[i].job_id + "\")'>Edit</button>    ";
+			var td4 = "<button class='btn btn-sm btn-default' type='submit' onClick='deletebutton(\"" + jsondata[i].job_id + "\")'>Delete</button></td>";
+			var tr2 = '</tr>';
+			$('#viewtable').append(tr + td3 + td4 + td1 + td2 + tr2);
+		}
+		var d = new Date();
+		var year = d.getYear() - 100;
+		var month = ("0" + (d.getMonth() + 1)).slice(-2);
+		var num = parseInt(jsondata[jsondata.length - 1].job_id) + 1;
+		document.getElementById("job_id").value = "JOB" + year + month + num;
+		var dataalert = jsondata[jsondata.length - 1].name;
+		if (dataalert !== 'view') {
+			alert(dataalert);
+		};
+	}
+
+
+</script>

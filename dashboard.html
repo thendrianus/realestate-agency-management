@@ -1,0 +1,608 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            PT. Duta Propertindo Batam
+        </h1>
+
+    </div>
+</div>
+
+
+<section class="panel panel-default">
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+        </li>
+    </ol>
+    <div class="panel-body">
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-home fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" id="listing2"></div>
+                                <div>Active Listing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer" onClick="return navclick('all_listing')">
+                            <span class="pull-left">View All Listing</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" id="closing"></div>
+                                <div>This Month Closing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer" onClick="return navclick('closing')">
+                            <span class="pull-left">View Closing List</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-thumbs-up fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" id="hold"></div>
+                                <div>This Month Hold</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer" onClick="return navclick('hold')">
+                            <span class="pull-left">View My Hold List</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge" id="customer"></div>
+                                <div>This Month Customer</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer" onClick="return navclick('new_customer')">
+                            <span class="pull-left">View My Customer List</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" id="contact_us_message">
+            <section class="panel panel-default">
+                <header class="panel-heading font-bold">Contact US Message</header>
+                <div class="panel-body">
+                    <form class="form-horizontal" action="javascript:void(0);">
+                        <div class="table-responsive" id="print2">
+
+                            <table class="table table-striped" id="myTable5" cellpadding="0" cellspacing="0" border="0"
+                                class="display" width="100%">
+                                <thead>
+
+                                    <tr>
+                                        <th>Contact ID</th>
+
+                                        <th>Name</th>
+
+                                        <th>Email</th>
+
+                                        <th>Contact Number</th>
+
+                                        <th>Message</th>
+
+                                        <th>Date Time</th>
+
+                                        <th>Delete</th>
+
+                                    </tr>
+
+                                </thead>
+
+                            </table>
+
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Hot Listing</header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="javascript:void(0);">
+
+
+
+                            <div class="table-responsive">
+                                <div id="print1">
+                                    <table class="table table-striped" id="myTable1" cellpadding="0" cellspacing="0"
+                                        border="0" class="display" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Listing</th>
+
+                                                <th>Jenis Listing</th>
+
+                                                <th>Type</th>
+
+                                                <th>Harga</th>
+
+                                                <th>Detail</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-6">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">New Listing</header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="javascript:void(0);">
+                            <div class="table-responsive" id="print2">
+
+                                <table class="table table-striped" id="myTable2" cellpadding="0" cellspacing="0"
+                                    border="0" class="display" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Listing</th>
+
+                                            <th>Jenis Listing</th>
+
+                                            <th>Type</th>
+
+                                            <th>Harga</th>
+
+                                            <th>Detail</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                </table>
+
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">New Closing</header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="javascript:void(0);">
+
+
+
+                            <div class="table-responsive">
+                                <div id="print1">
+                                    <table class="table table-striped" id="myTable3" cellpadding="0" cellspacing="0"
+                                        border="0" class="display" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Listing</th>
+
+                                                <th>Employee</th>
+
+                                                <th>Customer</th>
+
+                                                <th>Payment</th>
+
+                                                <th>Detail</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </section>
+
+            </div>
+            <div class="col-md-6">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">New Hold</header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="javascript:void(0);">
+                            <div class="table-responsive" id="print2">
+
+                                <table class="table table-striped" id="myTable4" cellpadding="0" cellspacing="0"
+                                    border="0" class="display" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Listing</th>
+
+                                            <th>Employee</th>
+
+                                            <th>Customer</th>
+
+                                            <th>Hold Deadline</th>
+
+                                            <th>Detail</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                </table>
+
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div id="ModalDetail" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Listing Detail</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" action="javascript:void(0);" disabled="disabled" id="cusform">
+                    <fieldset disabled="disabled" id="fieldisable">
+
+
+
+
+                        <div class="line line-dashed line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Listing ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="" id="listing_id" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nama Listing</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="" id="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Di Jual / Sewa</label>
+                            <div class="col-sm-10">
+                                <select name="jualsewa" id="jualsewa" class="form-control m-b">
+                                    <option value="Di Jual">Di Jual</option>
+                                    <option value="Di Sewa">Di Sewa</option>
+                                    <option value="Di Sewa">Di Jual/Sewa</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Tipe Listing</label>
+                            <div class="col-sm-10">
+                                <select name="listing2" class="form-control m-b" id="select_listing"
+                                    onchange="listing1();">
+                                    <option value="0">Pilih Listing</option>
+                                    <option value="Rumah">Rumah</option>
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="Bangunan Komersil">Bangunan Komersil</option>
+                                    <option value="Tanah">Tanah</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="listingtype">
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    if (document.getElementById('dutastatus').innerHTML != 'Administrator') {
+        $("#contact_us_message").hide();
+
+    }
+
+    $(document).ready(function () {
+        startview();
+
+        function startview() {
+            var dutaid = $('#dutaid').html();
+            $.post("php/dashboard.php", {
+                action: 'startview',
+                id: '' + dutaid + ''
+            },
+                function (data) {
+                    var jsondata = JSON.parse(data);
+                    $('#closing').html(jsondata[0].closing);
+                    $('#customer').html(jsondata[0].customer);
+                    $('#hold').html(jsondata[0].hold);
+                    $('#listing2').html(jsondata[0].listing);
+                });
+        }
+    });
+
+    var dataTable = $('#myTable1').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "php/dashboard.php",
+            data: { 'action': 'hotlisting' },
+            type: "post",
+            error: function () {
+                $(".myTable-error").html("");
+                $("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#list_table").css("display", "none");
+            }
+        }
+    });
+
+    var dataTable = $('#myTable2').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "php/dashboard.php",
+            data: { 'action': 'newlisting' },
+            type: "post",
+            error: function () {
+                $(".myTable-error").html("");
+                $("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#list_table").css("display", "none");
+            }
+        }
+    });
+
+    var dataTable = $('#myTable3').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "php/dashboard.php",
+            data: { 'action': 'newclosing' },
+            type: "post",
+            error: function () {
+                $(".myTable-error").html("");
+                $("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#list_table").css("display", "none");
+            }
+        }
+    });
+
+    var dataTable = $('#myTable4').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "php/dashboard.php",
+            data: { 'action': 'newhold' },
+            type: "post",
+            error: function () {
+                $(".myTable-error").html("");
+                $("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#list_table").css("display", "none");
+            }
+        }
+    });
+
+
+    var dataTable = $('#myTable5').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "php/index.php",
+            data: { 'action': 'list_table' },
+            type: "post",
+            error: function () {
+                $(".myTable-error").html("");
+                $("#list_table").append('<tbody class="myTable-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                $("#list_table").css("display", "none");
+            }
+        }
+    });
+    function detailbutton(id) {
+        var listing_id = id.split('-');
+        $.post("php/listing.php", {
+            action: 'listingdetail',
+            id: "" + listing_id[0] + ""
+        },
+            function (data) {
+                var jsondata = JSON.parse(data);
+                var jsondata2 = JSON.parse(jsondata[0].description);
+                var jsondata3 = JSON.parse(jsondata2);
+                var jsondata5 = JSON.parse(jsondata[0].picture);
+                var jsondata4 = JSON.parse(jsondata5);
+
+                var category = jsondata[0].listing_category;
+
+                if (category == 'Rumah') {
+                    $("#listingtype").load("rumah.html", function (response, status, xhr) {
+                        if (status == "error") {
+                            var msg = "Sorry but there was an error: ";
+                            $(this).html(msg + xhr.status + " " + xhr.statusText);
+                        }
+                        else {
+                            detaildata();
+                        }
+                    });
+                }
+                else if (category == 'Apartment') {
+                    $("#listingtype").load("apartment.html", function (response, status, xhr) {
+                        if (status == "error") {
+                            var msg = "Sorry but there was an error: ";
+                            $(this).html(msg + xhr.status + " " + xhr.statusText);
+                        }
+                        else {
+                            detaildata();
+                        }
+                    });
+                }
+                else if (category == 'Bangunan Komersil') {
+                    $("#listingtype").load("komersil.html", function (response, status, xhr) {
+                        if (status == "error") {
+                            var msg = "Sorry but there was an error: ";
+                            $(this).html(msg + xhr.status + " " + xhr.statusText);
+                        }
+                        else {
+                            detaildata();
+                        }
+                    });
+                }
+                else if (category == 'Tanah') {
+                    $("#listingtype").load("tanah.html", function (response, status, xhr) {
+                        if (status == "error") {
+                            var msg = "Sorry but there was an error: ";
+                            $(this).html(msg + xhr.status + " " + xhr.statusText);
+                        }
+                        else {
+                            detaildata();
+                        }
+                    });
+                }
+                else if (category == '5') {
+                    $('#listingtype').html('');
+                }
+
+                function detaildata() {
+                    $('#form-group-img').hide();
+                    $('#form-group-btn').hide();
+                    $('#group-customer').hide();
+                    document.getElementById('listing_id').value = jsondata[0].listing_id;
+                    document.getElementById('name').value = jsondata[0].listing_name;
+                    document.getElementById('customer').value = jsondata[0].customer_id;
+                    document.getElementById('employee').value = jsondata[0].employee_id;
+                    document.getElementById('select_listing').value = jsondata[0].listing_category;
+                    document.getElementById('contract').value = jsondata[0].end_of_contract;
+                    document.getElementById('jualsewa').value = jsondata[0].sell_rent;
+                    document.getElementById('harga').value = jsondata[0].price;
+                    document.getElementById('sertifikat').value = jsondata[0].sertifikat;
+                    document.getElementById('location').value = jsondata[0].location_id;
+                    document.getElementById('address').value = jsondata[0].address_id;
+                    document.getElementById('alamat_lengkap').value = jsondata[0].address;
+                    document.getElementById('note').value = jsondata[0].note;
+                    document.getElementById('sertifikat').value = jsondata[0].sertifikat;
+
+                    if (jsondata4[0].picture1 != "") { $('#preview1').html("<img id='img1' src='uploads/" + jsondata4[0].picture1 + "'  class='preview' >"); }
+                    if (jsondata4[0].picture2 != "") { $('#preview2').html("<img id='img2' src='uploads/" + jsondata4[0].picture2 + "'  class='preview' >"); }
+                    if (jsondata4[0].picture3 != "") { $('#preview3').html("<img id='img3' src='uploads/" + jsondata4[0].picture3 + "'  class='preview' >"); }
+                    if (jsondata4[0].picture4 != "") { $('#preview4').html("<img id='img4' src='uploads/" + jsondata4[0].picture4 + "'  class='preview' >"); }
+                    if (jsondata4[0].picture5 != "") { $('#preview5').html("<img id='img5' src='uploads/" + jsondata4[0].picture5 + "'  class='preview' >"); }
+                    if (jsondata4[0].picture6 != "") { $('#preview6').html("<img id='img6' src='uploads/" + jsondata4[0].picture6 + "'  class='preview' >"); }
+
+                    if (category != 'Tanah') {
+                        document.getElementById('bangunan').value = jsondata3[0].bangunan;
+                        document.getElementById('lantai').value = jsondata3[0].lantai;
+                        document.getElementById('kmandi').value = jsondata3[0].kmandi;
+                        document.getElementById('ktidur').value = jsondata3[0].ktidur;
+
+                        if (typeof jsondata3[0].AC != 'undefined') { document.getElementById("AC").checked = true; }
+                        if (typeof jsondata3[0].Garasi != 'undefined') { document.getElementById("Garasi").checked = true; }
+                        if (typeof jsondata3[0].Refrigerator != 'undefined') { document.getElementById("Refrigerator").checked = true; }
+                        if (typeof jsondata3[0].Fire != 'undefined') { document.getElementById("Fire").checked = true; }
+                        if (typeof jsondata3[0].Kolam != 'undefined') { document.getElementById("Kolam").checked = true; }
+                        if (typeof jsondata3[0].Telephone != 'undefined') { document.getElementById("Telephone").checked = true; }
+                        if (typeof jsondata3[0].Stove != 'undefined') { document.getElementById("Stove").checked = true; }
+                        if (typeof jsondata3[0].Gordyn != 'undefined') { document.getElementById("Gordyn").checked = true; }
+                        if (typeof jsondata3[0].Carport != 'undefined') { document.getElementById("Carport").checked = true; }
+                        if (typeof jsondata3[0].PAM != 'undefined') { document.getElementById("PAM").checked = true; }
+                        if (typeof jsondata3[0].Microwave != 'undefined') { document.getElementById("Microwave").checked = true; }
+                        if (typeof jsondata3[0].Garden != 'undefined') { document.getElementById("Garden").checked = true; }
+                        if (typeof jsondata3[0].Water != 'undefined') { document.getElementById("Water").checked = true; }
+                        if (typeof jsondata3[0].Oven != 'undefined') { document.getElementById("Oven").checked = true; }
+                    }
+
+                    if (category != 'Apartment') {
+                        document.getElementById('tanah').value = jsondata3[0].tanah;
+                    }
+
+                    $("#ModalDetail").modal('show');
+                }
+
+
+                //$("#ModalDetail").modal('show');
+            });
+    }
+
+    function deletebutton(no) {
+        if (confirm('Apa anda yakin anda ingin menghapus data ini?')) {
+
+            $.post("php/index.php", {
+                action: 'delete',
+                id: "" + no + ""
+            },
+                function (data) {
+                    $('#myTable5').DataTable().ajax.reload();
+                });
+        } else {
+            // Do nothing!
+        }
+    }
+
+</script>
