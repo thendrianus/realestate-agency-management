@@ -1,7 +1,5 @@
 # Real Estate Agency Management System (Then Drianus Portfolio)
 
-Then the product shown on the web Scraper website, so if people wanted to find a watch they only need to go to one website
-
 ## Technology
 * PHP
 * HTML
